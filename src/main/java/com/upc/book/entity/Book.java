@@ -23,7 +23,7 @@ public class Book implements Serializable {
 
   String author;
 
-  int price;
+  double price;
 
   String description;
 
@@ -59,11 +59,11 @@ public class Book implements Serializable {
     this.author = author;
   }
 
-  public int getPrice() {
+  public double getPrice() {
     return price;
   }
 
-  public void setPrice(int price) {
+  public void setPrice(double price) {
     this.price = price;
   }
 
