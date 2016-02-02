@@ -3,6 +3,8 @@
 ## 简介
 图书馆信息管理系统
 
+![demo](img/demo.png)
+
 ## API
 * 获取所有图书：GET /api/books
 * 获取图书：GET /api/books/{id}
