@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+    <system/>
+    <properties fileName="custom.properties">
+        <reloadingStrategy refreshDelay="60000"
+                           config-class="org.apache.commons.configuration.reloading.FileChangedReloadingStrategy"/>
+    </properties>
+
+</configuration>

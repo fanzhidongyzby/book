@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Reference Manual http://logback.qos.ch/manual/index.html -->
+<configuration>
+
+    <jmxConfigurator/>
+    <!-- 输出到控制台的 Appender -->
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>%d{HH:mm:ss}[%thread] %-5level %logger.%M:%L - %msg%n</pattern>
+        </layout>
+    </appender>
+
+    <!-- 输出到文件的 Appender -->
+    <appender name="file"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>log/application.log</file>
+        <append>true</append>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>log/application.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder charset="UTF-8">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss|SSS} [%thread] %-5level %logger.%M:%L -
+                %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <encoder charset="UTF-8"/>
+
+    <logger name="com.upc.book" level="DEBUG"/>
+
+    <logger name="jdbc.connection" level="ERROR"/>
+    <logger name="jdbc.audit" level="ERROR"/>
+    <logger name="jdbc.sqlonly" level="ERROR"/>
+    <logger name="jdbc.resultset" level="ERROR"/>
+    <logger name="jdbc.sqltiming" level="ERROR"/>
+
+    <root level="INFO">
+        <appender-ref ref="stdout"/>
+        <appender-ref ref="file"/>
+    </root>
+
+</configuration>
