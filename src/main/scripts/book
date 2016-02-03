@@ -1,0 +1,38 @@
+#/bin/bash
+
+binDir=$(cd "$(dirname "$0")"; pwd)
+baseDir=$(readlink -f $binDir/../)
+libDir=$baseDir/lib
+confDir=$baseDir/conf
+webDir=$baseDir/webapp
+
+CLASSPATH=""
+for jarPath in $libDir/*.jar; do
+ CLASSPATH=$CLASSPATH:$jarPath
+done
+
+CLASSPATH=$CLASSPATH:$confDir
+CLASSPATH=$CLASSPATH:$webDir
+export CLASSPATH
+export LANG="zh_CN.UTF-8"
+
+cd $baseDir
+
+if [[ -n $JAVA_HOME ]]; then
+  export PATH=$JAVA_HOME/bin:$PATH
+fi
+
+if [[ -n $(java -version 2> /dev/null) ]]; then
+  echo "java is not installed or JAVA_HOME not set"
+fi
+
+command="-Dfile.encoding="UTF-8" -Dorg.eclipse.jetty.util.URI.charset="UTF-8" -Duser.language="Zh" -Duser.region="CN" -Duser.timezone="GMT+08" -Xms1024m -Xmx2048m com.upc.book.Main"
+
+is_test=$TEST
+mkdir -p $baseDir/log
+if [[ "$is_test" == "true" ]]; then
+  java -Dspring.profiles.active="test" $command >$baseDir/log/out.log 2>$baseDir/log/error.log &
+else
+  java $command >$baseDir/log/out.log 2>$baseDir/log/error.log &
+  # java -agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=8080 $command
+fi

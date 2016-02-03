@@ -1,0 +1,47 @@
+<assembly xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2 http://maven.apache.org/xsd/assembly-1.1.2.xsd">
+
+  <id>release</id>
+  <formats>
+    <format>zip</format>
+  </formats>
+  <dependencySets>
+    <dependencySet>
+      <useProjectArtifact>true</useProjectArtifact>
+      <outputDirectory>lib</outputDirectory>
+    </dependencySet>
+  </dependencySets>
+
+  <fileSets>
+    <fileSet>
+      <outputDirectory>/</outputDirectory>
+      <fileMode>0644</fileMode>
+      <includes>
+        <include>*.md</include>
+      </includes>
+    </fileSet>
+    <fileSet>
+      <outputDirectory>bin</outputDirectory>
+      <directory>src/main/scripts</directory>
+      <fileMode>0755</fileMode>
+      <includes>
+        <include>book</include>
+      </includes>
+    </fileSet>
+    <fileSet>
+      <outputDirectory>/conf</outputDirectory>
+      <directory>src/main/resources</directory>
+      <directoryMode>0755</directoryMode>
+      <fileMode>0644</fileMode>
+      <excludes>
+      </excludes>
+    </fileSet>
+    <fileSet>
+      <outputDirectory>/webapp</outputDirectory>
+      <directory>src/main/webapp</directory>
+      <directoryMode>0755</directoryMode>
+      <fileMode>0644</fileMode>
+    </fileSet>
+  </fileSets>
+</assembly>
