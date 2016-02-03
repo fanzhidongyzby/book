@@ -103,6 +103,11 @@
   </dependencies>
 
   <build>
+    <resources>
+      <resource>
+        <directory>src/main/webapp</directory>
+      </resource>
+    </resources>
     <pluginManagement>
       <plugins>
         <plugin>
@@ -117,9 +122,6 @@
           <configuration>
             <source>${java.version}</source>
             <target>${java.version}</target>
-            <excludes>
-              <exclude>public</exclude>
-            </excludes>
           </configuration>
         </plugin>
       </plugins>
