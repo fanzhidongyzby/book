@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+
+<html ng-app="ngAppBook" lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <title>图书管理系统</title>
+
+  <script type="text/javascript" src="./js/jquery-2.0.0.min.js"></script>
+  <script type="text/javascript" src="./js/jquery-ui"></script>
+  <link href="./css/bootstrap-combined.min.css" rel="stylesheet" media="screen">
+  <script type="text/javascript" src="./js/bootstrap.min.js"></script>
+  <script src="./js/angular.min.js"></script>
+</head>
+<body ng-controller="book">
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="span12">
+      <h3>
+        {{book.name}}
+      </h3><br/><br/><br/>
+
+      <div class="row-fluid">
+        <div class="span5">
+          <img alt="140x140" height="400" width="200" src="image/books/{{book.picturePath}}"/>
+        </div>
+        <div class="span7">
+          <form>
+            价格:<input type="text" name="lastname"/><br/><br/><br/><br/> 数量:<input type="text"
+                                                                                  name="lastname"/><br/><br/>
+            <button type="button" class="btn btn-primary">购买</button>
+          </form>
+        </div>
+      </div>
+      <dl>
+        {{book.description}}
+        <dt>
+          {{book.description}}
+        </dt>
+        <dd>
+          {{book.description}}
+        </dd>
+
+      </dl>
+      <ul class="thumbnails">
+        <div ng-repeat="assoBook in assoBooks">
+          <li class="span2">
+            <div class="thumbnail">
+              <img alt="300x200" height="200" width="100" src="image/books/{{assoBook.picturePath}}"/>
+
+              <div class="caption">
+                <h3>
+                  {{assoBook.name}}
+                </h3>
+                <p>{{assoBook.description}}</p>
+                <p>
+                  <a class="btn btn-primary" href="#">动作</a> <a class="btn" href="#">动作</a>
+                </p>
+              </div>
+            </div>
+          </li>
+          <li class="span1"></li>
+
+        </div>
+      </ul>
+    </div>
+  </div>
+</div>
+</body>
+
+<script type="text/javascript">
+  var bookApp = angular.module('ngAppBook', []);
+  bookApp.config(['$locationProvider', function ($locationProvider) {
+    $locationProvider.html5Mode(true);
+  }]);
+  bookApp.controller('book', ['$scope', '$http', '$location', function ($scope, $http, $location) {
+    $http({
+      method: "GET",
+      url: "/api/books/" + $location.search().id,
+      data: "",
+      headers: {"Content-Type": "application/json"}
+    }).success(function (data, status) {
+      if (status != 200) {
+        return;
+      }
+
+      $scope.book = data;
+    }).error(function (data, status) {
+      alert("获取图书信息失败！")
+    });
+
+    $http({
+      method: "GET",
+      url: "/api/associations/books?id=" + $location.search().id,
+      data: "",
+      headers: {"Content-Type": "application/json"}
+    }).success(function (data, status) {
+      if (status != 200) {
+        return;
+      }
+
+      $scope.assoBooks = data;
+    }).error(function (data, status) {
+      alert("获取图书信息失败！")
+    });
+  }]);
+
+</script>
+
+</html>

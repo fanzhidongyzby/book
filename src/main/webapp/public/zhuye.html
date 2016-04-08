@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+
+<html ng-app="" lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <title>图书管理系统</title>
+
+  <script type="text/javascript" src="./js/jquery-2.0.0.min.js"></script>
+  <script type="text/javascript" src="./js/jquery-ui"></script>
+  <link href="./css/bootstrap-combined.min.css" rel="stylesheet" media="screen">
+  <script type="text/javascript" src="./js/bootstrap.min.js"></script>
+  <script src="./js/angular.min.js"></script>
+</head>
+
+<script type="text/javascript">
+  function books($scope, $http) {
+    $scope.loadbooks = function () {
+      $http({
+        method: "GET",
+        url: "/api/books",
+        data: "",
+        headers: {"Content-Type": "application/json"}
+      }).success(function (data, status) {
+        if (status != 200) {
+          return;
+        }
+
+        $scope.books = data;
+      }).error(function (data, status) {
+        alert("获取图书信息失败！")
+      });
+    };
+
+    $scope.loadbooks();
+  }
+</script>
+
+<body ng-controller="books">
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="span12">
+      <h3>
+        图书销售推荐系统
+      </h3>
+      <ul class="nav nav-tabs">
+        <li class="active">
+          <a href="#">首页</a>
+        </li>
+        <li>
+          <a href="#">特色推荐</a>
+        </li>
+        <li class="disabled">
+          <a href="#">信息</a>
+        </li>
+        <li class="dropdown pull-right">
+          <a href="#" data-toggle="dropdown" class="dropdown-toggle">下拉<strong class="caret"></strong></a>
+          <ul class="dropdown-menu">
+            <li>
+              <a href="#">操作</a>
+            </li>
+            <li>
+              <a href="#">设置栏目</a>
+            </li>
+            <li>
+              <a href="#">更多设置</a>
+            </li>
+            <li class="divider">
+            </li>
+            <li>
+              <a href="#">分割线</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+      <div class="row-fluid">
+        <div class="span3">
+          <ul class="nav nav-list">
+            <li class="nav-header">
+              列表标题
+            </li>
+            <li class="active">
+              <a href="#">英语</a>
+            </li>
+            <li>
+              <a href="#">艺术</a>
+            </li>
+            <li>
+              <a href="#">人文社科</a>
+            </li>
+            <li>
+              <a href="#">教育</a>
+            </li>
+            <li>
+              <a href="#">计算机</a>
+            </li>
+            <li>
+              <a href="#">生活</a>
+            </li>
+            <li class="divider">
+            </li>
+            <li>
+              <a href="#">帮助</a>
+            </li>
+          </ul>
+        </div>
+        <div class="span9">
+          <div ng-repeat="book in books" ng-if="$index%3 == 0">
+            <div class="row">
+              <div class="col-md-3">
+                <div class="thumbnail">
+                  <a href="shu.html?id={{book.id}}">
+                    <img alt="300x200" height="300" width="200" src="image/books/{{book.picturePath}}"/>
+                  </a>
+
+                  <div class="caption">
+                    <h3>
+                      {{book.name}}
+                    </h3>
+
+                    <p>
+                      {{book.description}}
+                    </p>
+
+                    <p>
+                      <a class="btn btn-primary" href="#">动作</a> <a class="btn" href="#">动作</a>
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-3" ng-if="books[$index+1]">
+
+                <div class="thumbnail">
+                  <a href="shu.html?id={{books[$index+1].id}}">
+                    <img alt="300x200" height="300" width="200" src="image/books/{{books[$index+1].picturePath}}"/>
+                  </a>
+
+                  <div class="caption">
+                    <h3>
+                      {{books[$index+1].name}}
+                    </h3>
+
+                    <p>
+                      {{books[$index+1].description}}
+                    </p>
+
+                    <p>
+                      <a class="btn btn-primary" href="#">动作</a> <a class="btn" href="#">动作</a>
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-3" ng-if="books[$index+2]">
+
+                <div class="thumbnail">
+                  <a href="shu.html?id={{books[$index+2].id}}">
+                    <img alt="300x200" height="300" width="200" src="image/books/{{books[$index+2].picturePath}}"/>
+                  </a>
+
+                  <div class="caption">
+                    <h3>
+                      {{books[$index+2].name}}
+                    </h3>
+
+                    <p>
+                      {{books[$index+2].description}}
+                    </p>
+
+                    <p>
+                      <a class="btn btn-primary" href="#">动作</a> <a class="btn" href="#">动作</a>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">&nbsp;</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+
+
+</html>
