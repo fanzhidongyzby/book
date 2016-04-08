@@ -3,6 +3,9 @@ package com.upc.book.entity;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.Serializable;
 
 @Entity
@@ -26,6 +29,16 @@ public class Book implements Serializable {
   double price;
 
   String description;
+
+  private String picturePath;
+
+  public String getPicturePath() {
+    return picturePath;
+  }
+
+  public void setPicturePath(String picturePath) {
+    this.picturePath = picturePath;
+  }
 
   public String getId() {
     return id;
@@ -84,6 +97,7 @@ public class Book implements Serializable {
       ", author='" + author + '\'' +
       ", price=" + price +
       ", description='" + description + '\'' +
+      ", picturePath='" + picturePath + '\'' +
       '}';
   }
 }
