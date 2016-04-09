@@ -18,7 +18,7 @@
             var user = {};
             user.userName = $scope.userName;
             user.password = $scope.password;
-            if(!user.userName || !user.password) {
+            if (!user.userName || !user.password) {
                 alert("用户名和密码不能为空!");
                 return;
             }
@@ -34,7 +34,7 @@
                 }
 
                 if (data) {
-                    location.href="zhuye.html";
+                    location.href = "zhuye.html";
                 } else {
                     alert("用户登录失败!");
                 }
@@ -54,31 +54,35 @@
             </h3><br/><br/><br/><br/>
 
             <div class="row-fluid">
-                <div class="span6">
+                <div class="span2"></div>
+                <div class="span4">
                     <img alt="140x140" width="400" height="400" src="image/background.jpg"/>
                 </div>
                 <div class="span6">
-                    <form class="form-horizontal">
-                        <div class="control-group">
-                            <label class="control-label" for="inputEmail">用户名</label>
+                    <div class="row">&nbsp;<br><br><br><br><br></div>
+                    <div class="row">
+                        <form class="form-horizontal">
+                            <div class="control-group">
+                                <label class="control-label" for="inputEmail">用户名</label>
 
-                            <div class="controls">
-                                <input id="inputEmail" type="text" ng-model="userName"/>
+                                <div class="controls">
+                                    <input id="inputEmail" type="text" ng-model="userName"/>
+                                </div>
                             </div>
-                        </div>
-                        <div class="control-group">
-                            <label class="control-label" for="inputPassword">密码</label>
+                            <div class="control-group">
+                                <label class="control-label" for="inputPassword">密码</label>
 
-                            <div class="controls">
-                                <input id="inputPassword" type="password" ng-model="password"/>
+                                <div class="controls">
+                                    <input id="inputPassword" type="password" ng-model="password"/>
+                                </div>
                             </div>
-                        </div>
-                        <div class="control-group">
-                            <div class="controls">
-                                <button type="submit" class="btn" ng-click="submit()">登陆</button>
+                            <div class="control-group">
+                                <div class="controls">
+                                    <button type="submit" class="btn" ng-click="submit()">登陆</button>
+                                </div>
                             </div>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
