@@ -25,7 +25,7 @@ public class CartController extends Controller {
         return userService.addToCart(getUserId(), id, count);
     }
 
-    @RequestMapping(value = "/clean", method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.DELETE)
     public boolean clean() throws BookException {
         return userService.cleanCart(getUserId());
     }

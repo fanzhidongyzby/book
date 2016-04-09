@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-    <title>图书管理系统</title>
+    <title>登录</title>
 
     <script type="text/javascript" src="./js/jquery-2.0.0.min.js"></script>
     <script type="text/javascript" src="./js/jquery-ui"></script>
@@ -14,6 +14,25 @@
 </head>
 <script type="text/javascript">
     function login($scope, $http) {
+        $scope.check = function () {
+            $http({
+                method: "GET",
+                url: "/api/login",
+                data: "",
+                headers: {"Content-Type": "application/json"}
+            }).success(function (data, status) {
+                        if (status != 200) {
+                            return;
+                        }
+                        if (data) {
+                            location.href = "index.html";
+                        }
+                    }
+            ).error(function (data, status) {
+                    });
+        };
+        $scope.check();
+
         $scope.submit = function () {
             var user = {};
             user.userName = $scope.userName;
@@ -34,12 +53,12 @@
                 }
 
                 if (data) {
-                    location.href = "zhuye.html";
+                    location.href = "index.html";
                 } else {
                     alert("用户登录失败!");
                 }
             }).error(function (data, status) {
-                alert("用户登录失败!")
+                alert("用户登录失败!");
             });
         };
     }
@@ -50,7 +69,7 @@
     <div class="row-fluid">
         <div class="span12">
             <h3>
-                图书销售推荐系统
+                <a class="btn-link btn-info" href="index.html">图书销售推荐系统</a>
             </h3><br/><br/><br/><br/>
 
             <div class="row-fluid">

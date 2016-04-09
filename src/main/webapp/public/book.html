@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-  <title>图书管理系统</title>
+  <title>图书</title>
 
   <script type="text/javascript" src="./js/jquery-2.0.0.min.js"></script>
   <script type="text/javascript" src="./js/jquery-ui"></script>
@@ -86,7 +86,7 @@
 
       $scope.book = data;
     }).error(function (data, status) {
-      alert("获取图书信息失败！")
+      alert("获取图书信息失败!");
     });
 
     $http({
@@ -101,7 +101,7 @@
 
       $scope.assoBooks = data;
     }).error(function (data, status) {
-      alert("获取图书信息失败！")
+      alert("获取图书信息失败!");
     });
   }]);
 

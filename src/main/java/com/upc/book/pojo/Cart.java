@@ -10,8 +10,6 @@ public class Cart {
 
     List<BookCount> bookCounts = new ArrayList<>();
 
-    double total;
-
     public boolean addBook(Book book, int count) {
         if (book == null || count < 1) {
             return false;
@@ -51,6 +49,7 @@ public class Cart {
         } else {
             bookCount.setCount(bookCount.getCount() - count);
         }
+
         return true;
     }
 
@@ -62,19 +61,10 @@ public class Cart {
         this.bookCounts = bookCounts;
     }
 
-    public double getTotal() {
-        return total;
-    }
-
-    public void setTotal(double total) {
-        this.total = total;
-    }
-
     @Override
     public String toString() {
         return "Cart{" +
                 "bookCounts=" + bookCounts +
-                ", total=" + total +
                 '}';
     }
 }

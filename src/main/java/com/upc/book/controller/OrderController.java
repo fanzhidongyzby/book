@@ -17,7 +17,7 @@ public class OrderController extends Controller {
         return orderService.getOrders(userId);
     }
 
-    @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "{id}", method = RequestMethod.GET)
     public Order getOrder(@PathVariable String id) throws BookException {
         return orderService.getOrder(id);
     }

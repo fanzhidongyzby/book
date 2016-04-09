@@ -2,120 +2,115 @@
 
 <html ng-app="" lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-  <title>图书管理系统</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <title>购物车</title>
 
-  <script type="text/javascript" src="./js/jquery-2.0.0.min.js"></script>
-  <script type="text/javascript" src="./js/jquery-ui"></script>
-  <link href="./css/bootstrap-combined.min.css" rel="stylesheet" media="screen">
-  <script type="text/javascript" src="./js/bootstrap.min.js"></script>
-  <script src="./js/angular.min.js"></script>
+    <script type="text/javascript" src="./js/jquery-2.0.0.min.js"></script>
+    <script type="text/javascript" src="./js/jquery-ui"></script>
+    <link href="./css/bootstrap-combined.min.css" rel="stylesheet" media="screen">
+    <script type="text/javascript" src="./js/bootstrap.min.js"></script>
+    <script src="./js/angular.min.js"></script>
 </head>
+<script type="text/javascript">
+    function cart($scope, $http) {
+        $scope.total = 0.0;
+        $scope.getCart = function () {
+            $http({
+                method: "GET",
+                url: "/api/cart",
+                data: "",
+                headers: {"Content-Type": "application/json"}
+            }).success(function (data, status) {
+                if (status != 200) {
+                    return;
+                }
+
+                $scope.cart = data;
+            }).error(function (data, status) {
+                alert("获取购物车信息失败！")
+            });
+        };
+
+        $scope.cleanCart = function () {
+            $http({
+                method: "DELETE",
+                url: "/api/cart",
+                data: "",
+                headers: {"Content-Type": "application/json"}
+            }).success(function (data, status) {
+                if (status != 200) {
+                    return;
+                }
+
+                if (data) {
+                    $scope.getCart();
+                } else {
+                    alert("购物车清空失败!");
+                }
+            }).error(function (data, status) {
+                alert("购物车清空失败!");
+            });
+        };
+
+        $scope.getCart();
+    }
+</script>
+<body ng-controller="cart">
 <div class="container-fluid">
-  <div class="row-fluid">
-    <div class="span12">
-      <h3>
-        图书销售推荐
-      </h3><br /><br /><br />
-      <table class="table">
-        <thead>
-        <tr>
-          <th>
-            图书
-          </th>
-          <th>
-            书名
-          </th>
-          <th>
-            数量
-          </th>
-          <th>
-            状态
-          </th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-          <td>
-            1
-          </td>
-          <td>
-            TB - Monthly
-          </td>
-          <td>
-            01/04/2012
-          </td>
-          <td>
-            Default
-          </td>
-        </tr>
-        <tr class="success">
-          <td>
-            1
-          </td>
-          <td>
-            TB - Monthly
-          </td>
-          <td>
-            01/04/2012
-          </td>
-          <td>
-            Approved
-          </td>
-        </tr>
-        <tr class="error">
-          <td>
-            2
-          </td>
-          <td>
-            TB - Monthly
-          </td>
-          <td>
-            02/04/2012
-          </td>
-          <td>
-            Declined
-          </td>
-        </tr>
-        <tr class="warning">
-          <td>
-            3
-          </td>
-          <td>
-            TB - Monthly
-          </td>
-          <td>
-            03/04/2012
-          </td>
-          <td>
-            Pending
-          </td>
-        </tr>
-        <tr class="info">
-          <td>
-            4
-          </td>
-          <td>
-            TB - Monthly
-          </td>
-          <td>
-            04/04/2012
-          </td>
-          <td>
-            Call in to confirm
-          </td>
-        </tr>
-        </tbody>
-      </table>
-      <div class="row-fluid">
-        <div class="span10">
+    <div class="row-fluid">
+        <div class="span12">
+            <h3>
+                <a class="btn-link btn-info" href="index.html">图书销售推荐系统</a>
+            </h3><br/><br/><br/>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>
+                        图书
+                    </th>
+                    <th>
+                        名称
+                    </th>
+                    <th>
+                        单价
+                    </th>
+                    <th>
+                        数量
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="bookCount in cart.bookCounts">
+                    <td>
+                        <img src="image/books/{{bookCount.book.picturePath}}" width="50" height="50">
+                    </td>
+                    <td>
+                        {{bookCount.book.name}}
+                    </td>
+                    <td>
+                        {{bookCount.book.price}}
+                    </td>
+                    <td>
+                        {{bookCount.count}}
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="row-fluid">
+                <div class="span10"></div>
+                <div class="span2">总价：{{total}} 元</div>
+            </div>
+            <div class="row-fluid">
+                <div class="span8"></div>
+                <div class="span2"><a class="btn btn-block btn-warning" ng-click="cleanCart()">清空</a></div>
+                <div class="span2">
+                    <button class="btn btn-block btn-danger" type="button">提交订单</button>
+                </div>
+            </div>
         </div>
-        <div class="span2">
-          总价：
-          <button class="btn btn-block btn-danger" type="button">提交订单</button>
-        </div>
-      </div>
     </div>
-  </div>
 </div>
+</div>
+</body>
+</html>

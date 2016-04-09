@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "book")
+@Table(name = "books")
 public class Book implements Serializable {
 
   @Id

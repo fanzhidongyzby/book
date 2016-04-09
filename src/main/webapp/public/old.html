@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+
+<html ng-app="" lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <title>主页</title>
+
+    <script type="text/javascript" src="./js/jquery-2.0.0.min.js"></script>
+    <script type="text/javascript" src="./js/jquery-ui"></script>
+    <link href="./css/bootstrap-combined.min.css" rel="stylesheet" media="screen">
+    <script type="text/javascript" src="./js/bootstrap.min.js"></script>
+    <script src="./js/angular.min.js"></script>
+</head>
+
+<script type="text/javascript">
+    function books($scope, $http) {
+        $scope.loadbooks = function () {
+            $http({
+                method: "GET",
+                url: "/api/books",
+                data: "",
+                headers: {"Content-Type": "application/json"}
+            }).success(function (data, status) {
+                if (status != 200) {
+                    return;
+                }
+
+                $scope.books = data;
+            }).error(function (data, status) {
+                alert("获取图书信息失败！")
+            });
+        };
+
+        $scope.loadbooks();
+    }
+</script>
+
+<body ng-controller="books">
+<div class="container-fluid" id="LG">
+    <div class="row-fluid">
+        <div class="span12">
+            <h3 class="text-left">
+                <a class="btn-link btn-info" href="index.html">图书销售推荐系统</a>
+            </h3>
+            <ul class="breadcrumb">
+                <li>
+                    <a href="#">主页</a> <span class="divider">/</span>
+                </li>
+                <li>
+                    <a href="#">分类</a> <span class="divider">/</span>
+                </li>
+                <li class="active">
+                    科技书库
+                </li>
+            </ul>
+            <div class="row-fluid">
+                <div class="span4">
+                    <ul class="nav nav-list">
+                        <li class="nav-header">
+                            图书管理
+                        </li>
+                        <li class="active">
+                            <a href="#">所有图书</a>
+                        </li>
+                        <li>
+                            <a href="#">所有作者</a>
+                        </li>
+                        <li class="nav-header">
+                            功能列表
+                        </li>
+                        <li>
+                            <a href="#">资料</a>
+                        </li>
+                        <li>
+                            <a href="#">设置</a>
+                        </li>
+                        <li class="divider">
+                        </li>
+                        <li>
+                            <a href="#">帮助</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="span8">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>编号</th>
+                            <th>书名</th>
+                            <th>作者</th>
+                            <th>价格</th>
+                            <th>描述</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="success" ng-repeat="book in books">
+                            <td>{{book.count}}</td>
+                            <td>{{book.name}}</td>
+                            <td>{{book.author}}</td>
+                            <td>{{book.price}}</td>
+                            <td>{{book.description}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="pagination pagination-small pagination-right">
+                        <ul>
+                            <li>
+                                <a href="#">上一页</a>
+                            </li>
+                            <li>
+                                <a href="#">1</a>
+                            </li>
+                            <li>
+                                <a href="#">2</a>
+                            </li>
+                            <li>
+                                <a href="#">3</a>
+                            </li>
+                            <li>
+                                <a href="#">4</a>
+                            </li>
+                            <li>
+                                <a href="#">5</a>
+                            </li>
+                            <li>
+                                <a href="#">下一页</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

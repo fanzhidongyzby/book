@@ -77,28 +77,21 @@ public class UserServiceImpl implements UserService {
 
     //把字符串转化为Cart对象
     private Cart parseCart(String value) throws BookException {
-        if (!StringUtils.hasText(value)) {
+        if (value == null) {
             throw new BookException("invalid cart value ", value);
         }
 
         //获取书-数量对
-        String[] pairs = value.split(BOOK_SEP);
-        if (pairs.length == 0) {
-            throw new BookException("invalid cart value ", value);
-        }
-
         Cart cart = new Cart();
+        String[] pairs = value.split(BOOK_SEP);
         for (String pair : pairs) {
             //获取书、数量
             String[] kv = pair.split(COUNT_SEP);
-            if (kv.length > 2 || kv.length < 1) {
-                throw new BookException("invalid cart value ", value);
+            if (kv.length != 2) {
+                continue;
             }
             String id = kv[0];
-            int count = 1;
-            if (kv.length > 1) {
-                count = Integer.parseInt(kv[1]);
-            }
+            int count = Integer.parseInt(kv[1]);
             BookCount bookCount = new BookCount();
             bookCount.setBook(bookService.getBook(id));
             bookCount.setCount(count);
