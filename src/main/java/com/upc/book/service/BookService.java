@@ -11,6 +11,8 @@ public interface BookService {
 
     List<Book> getBooks() throws BookException;
 
+    boolean hasBook(String id) throws BookException;
+
     Book getBook(String id) throws BookException;
 
     Book saveBook(Book book) throws BookException;

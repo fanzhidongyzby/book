@@ -13,13 +13,10 @@ import javax.servlet.http.HttpSession;
 @RestController
 @RequestMapping("/api/login")
 public class LoginController extends Controller {
-    @Autowired
-    HttpSession session;
 
     @RequestMapping(method = RequestMethod.GET)
-    public String whoami() throws BookException {
-        String userId = (String)session.getAttribute("user");
-        return userId;
+    public String whoAmI() throws BookException {
+        return getUserId();
     }
 
     @RequestMapping(method = RequestMethod.POST)

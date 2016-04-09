@@ -63,8 +63,16 @@ public class BookServiceImpl implements BookService {
     return bookRepository.findAll();
   }
 
+  public boolean hasBook(String id) throws BookException {
+    return bookRepository.exists(id);
+  }
+
   public Book getBook(String id) throws BookException {
-    return bookRepository.findOne(id);
+    Book book = bookRepository.findOne(id);
+    if (book == null) {
+      throw new BookException("get book failed, id =", id);
+    }
+    return book;
   }
 
   public Book saveBook(Book book) throws BookException {

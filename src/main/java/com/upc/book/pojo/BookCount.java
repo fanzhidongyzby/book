@@ -4,7 +4,7 @@ import com.upc.book.entity.Book;
 
 public class BookCount {
 
-    Book book;
+    Book book = new Book();
 
     int count;
 
@@ -30,5 +30,21 @@ public class BookCount {
                 "book=" + book +
                 ", count=" + count +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        BookCount bookCount = (BookCount) o;
+
+        return book.equals(bookCount.book);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return book.hashCode();
     }
 }

@@ -18,7 +18,7 @@ public class Order implements Serializable {
     String id;
 
     @Column(nullable = false)
-    String username;
+    String userId;
 
     String cart;
 
@@ -26,11 +26,11 @@ public class Order implements Serializable {
     String timestamp;
 
     public String getUsername() {
-        return username;
+        return userId;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUsername(String userId) {
+        this.userId = userId;
     }
 
     public String getId() {
@@ -61,7 +61,7 @@ public class Order implements Serializable {
     public String toString() {
         return "Order{" +
                 "id='" + id + '\'' +
-                ", userName='" + username + '\'' +
+                ", userId='" + userId + '\'' +
                 ", cart='" + cart + '\'' +
                 ", timestamp=" + timestamp +
                 '}';
