@@ -100,15 +100,16 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<OrderDTO> getOrderDTOs(String userId) throws BookException {
         List<Order> orders = getOrders(userId);
-        if (orders.size() > 3) {
-            orders = orders.subList(0, 3);
-        }
 
         List<OrderDTO> orderDTOs = new ArrayList<>();
         for (Order order : orders) {
             OrderDTO orderDTO = new OrderDTO();
             orderDTO.setId(order.getId());
-            orderDTO.setBooks(parseCartBooks(order.getCart()));
+            List<Book> books = parseCartBooks(order.getCart());
+            if (books.size() > 3) {
+                books = books.subList(0, 3);
+            }
+            orderDTO.setBooks(books);
             orderDTO.setTimestamp(order.getTimestamp());
 
             orderDTOs.add(orderDTO);
