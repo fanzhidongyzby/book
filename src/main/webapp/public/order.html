@@ -2,101 +2,89 @@
 
 <html ng-app="" lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-  <title>订单</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <title>订单</title>
 
-  <script type="text/javascript" src="./js/jquery-2.0.0.min.js"></script>
-  <script type="text/javascript" src="./js/jquery-ui"></script>
-  <link href="./css/bootstrap-combined.min.css" rel="stylesheet" media="screen">
-  <script type="text/javascript" src="./js/bootstrap.min.js"></script>
-  <script src="./js/angular.min.js"></script>
+    <script type="text/javascript" src="./js/jquery-2.0.0.min.js"></script>
+    <script type="text/javascript" src="./js/jquery-ui"></script>
+    <link href="./css/bootstrap-combined.min.css" rel="stylesheet" media="screen">
+    <script type="text/javascript" src="./js/bootstrap.min.js"></script>
+    <script src="./js/angular.min.js"></script>
 </head>
+<script type="text/javascript">
+    function orders($scope, $http) {
+        $scope.getOrders = function () {
+            $http({
+                method: "GET",
+                url: "/api/orders",
+                data: "",
+                headers: {"Content-Type": "application/json"}
+            }).success(function (data, status) {
+                if (status != 200) {
+                    return;
+                }
 
+                if (data) {
+                    $scope.orders = data;
+                } else {
+                    alert("获取订单信息失败!");
+                }
+
+            }).error(function (data, status) {
+                alert("获取订单信息失败!");
+            });
+        };
+
+        $scope.getOrders();
+    }
+</script>
+<body ng-controller="orders">
 <div class="container-fluid">
-  <div class="row-fluid">
-    <div class="span12">
-      <h3>
-        <a class="btn-link btn-info" href="index.html">图书销售推荐系统</a>
-      </h3><br /><br /><br />
-      <div class="row-fluid">
-        <div class="span10">
+    <div class="row-fluid">
+        <div class="span12">
+            <h3>
+                <a class="btn-link btn-info" href="index.html">图书销售推荐系统</a>
+            </h3><br/><br/><br/>
+
+            <div class="row-fluid">
+                <div class="span10">
+                </div>
+                <div class="span2">
+                </div>
+            </div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>
+                        订单号
+                    </th>
+                    <th>
+                        图书
+                    </th>
+                    <th>
+                        日期
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="order in orders">
+                    <td>
+                        {{order.id}}
+                    </td>
+                    <td>
+                        <a ng-repeat="book in order.books" target="_blank" href="book.html?id={{book.id}}">
+                            <img src="image/books/{{book.picturePath}}" width="50" height="50"/>
+                        </a>
+                    </td>
+                    <td>
+                        {{order.timestamp}}
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         </div>
-        <div class="span2">
-        </div>
-      </div>
-      <table class="table">
-        <thead>
-        <tr>
-          <th>
-            订单号
-          </th>
-          <th>
-            图书
-          </th>
-          <th>
-            日期
-          </th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-          <td>
-            1
-          </td>
-          <td>
-            TB - Monthly
-          </td>
-          <td>
-            01/04/2012
-          </td>
-        </tr>
-        <tr class="success">
-          <td>
-            1
-          </td>
-          <td>
-            TB - Monthly
-          </td>
-          <td>
-            01/04/2012
-          </td>
-        </tr>
-        <tr class="error">
-          <td>
-            2
-          </td>
-          <td>
-            TB - Monthly
-          </td>
-          <td>
-            02/04/2012
-          </td>
-        </tr>
-        <tr class="warning">
-          <td>
-            3
-          </td>
-          <td>
-            TB - Monthly
-          </td>
-          <td>
-            03/04/2012
-          </td>
-        </tr>
-        <tr class="info">
-          <td>
-            4
-          </td>
-          <td>
-            TB - Monthly
-          </td>
-          <td>
-            04/04/2012
-          </td>
-        </tr>
-        </tbody>
-      </table>
     </div>
-  </div>
 </div>
+</body>
+</html>

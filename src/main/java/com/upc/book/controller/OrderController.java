@@ -3,6 +3,7 @@ package com.upc.book.controller;
 import com.upc.book.entity.Order;
 import com.upc.book.exception.BookException;
 import com.upc.book.pojo.Cart;
+import com.upc.book.pojo.OrderDTO;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,9 +13,9 @@ import java.util.List;
 public class OrderController extends Controller {
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<Order> getOrders() throws BookException {
+    public List<OrderDTO> getOrders() throws BookException {
         String userId = getUserId();
-        return orderService.getOrders(userId);
+        return orderService.getOrderDTOs(userId);
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.GET)

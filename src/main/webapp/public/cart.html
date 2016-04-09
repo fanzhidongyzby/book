@@ -66,6 +66,26 @@
             });
         };
 
+        $scope.submitOrder = function () {
+            $http({
+                method: "POST",
+                url: "/api/orders",
+                data: "",
+                headers: {"Content-Type": "application/json"}
+            }).success(function (data, status) {
+                if (status != 200) {
+                    return;
+                }
+
+                if (data) {
+                    location.href = "order.html";
+                } else {
+                    alert("订单提交失败!");
+                }
+            }).error(function (data, status) {
+                alert("订单提交失败!");
+            });
+        };
     }
 </script>
 <body ng-controller="cart">
