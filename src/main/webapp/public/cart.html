@@ -27,10 +27,23 @@
                 }
 
                 $scope.cart = data;
+                if (data) {
+                    var sum = 0;
+                    for (var index = 0; index < data.bookCounts.length; index++) {
+                        bookCount = data.bookCounts[index];
+                        sum += bookCount.book.price * bookCount.count;
+                    }
+                    $scope.total = sum;
+                } else {
+                    alert("获取购物车信息失败!");
+                }
+
             }).error(function (data, status) {
-                alert("获取购物车信息失败！")
+                alert("获取购物车信息失败!");
             });
         };
+
+        $scope.getCart();
 
         $scope.cleanCart = function () {
             $http({
@@ -53,7 +66,6 @@
             });
         };
 
-        $scope.getCart();
     }
 </script>
 <body ng-controller="cart">
@@ -105,7 +117,7 @@
                 <div class="span8"></div>
                 <div class="span2"><a class="btn btn-block btn-warning" ng-click="cleanCart()">清空</a></div>
                 <div class="span2">
-                    <button class="btn btn-block btn-danger" type="button">提交订单</button>
+                    <button class="btn btn-block btn-danger" type="button" ng-click="submitOrder()">提交订单</button>
                 </div>
             </div>
         </div>
