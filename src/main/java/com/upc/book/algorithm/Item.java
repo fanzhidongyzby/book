@@ -12,6 +12,14 @@ public class Item {
 
     public Item() {}
 
+    public Item(String bookId) {
+        if (bookId == null) {
+            return;
+        }
+
+        elements.add(bookId);
+    }
+
     public Item(Set<String> bookIds) {
         if (bookIds == null) {
             return;
