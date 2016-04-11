@@ -13,7 +13,7 @@ public class RuleServiceImplTest extends BaseTest {
 
 
     @Autowired
-    private RuleServiceImpl ruleService;
+    private RuleService ruleService;
 
     @Override
     public void doTest() throws BookException {
