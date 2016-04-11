@@ -1,12 +1,58 @@
 package com.upc.book.pojo;
 
 import com.upc.book.entity.Book;
+import com.upc.book.exception.BookException;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Cart {
+    private static String BOOK_SEP = ";";
+    private static String COUNT_SEP = ":";
+
+    public static Map<String, Integer> getBookCountMap(String value) {
+        Map<String, Integer> map = new HashMap<>();
+        if (value == null) {
+            return map;
+        }
+
+        //获取书-数量对
+        String[] pairs = value.split(BOOK_SEP);
+        for (String pair : pairs) {
+            //获取书、数量
+            String[] kv = pair.split(COUNT_SEP);
+            if (kv.length != 2) {
+                continue;
+            }
+            String id = kv[0];
+            int count = Integer.parseInt(kv[1]);
+            map.put(id, count);
+        }
+
+        return map;
+    }
+
+    public static String toInnerString(Cart cart) {
+        StringBuffer stringBuffer = new StringBuffer();
+        if (cart == null) {
+            return stringBuffer.toString();
+        }
+
+        for (BookCount bookCount : cart.bookCounts) {
+            Book book = bookCount.getBook();
+            int count = bookCount.getCount();
+            if (book == null || count < 1) {
+                return stringBuffer.toString();
+            }
+
+            stringBuffer.append(book.getId() + COUNT_SEP + count + BOOK_SEP);
+        }
+
+        return stringBuffer.toString();
+    }
 
     List<BookCount> bookCounts = new ArrayList<>();
 

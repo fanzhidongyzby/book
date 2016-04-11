@@ -14,6 +14,8 @@ public interface OrderService {
 
     List<Order> getOrders(String userId) throws BookException;
 
+    List<Order> getAllOrders() throws BookException;
+
     Order genOrder(String userId) throws BookException;
 
     boolean cancelOrder(String orderId) throws BookException;

@@ -13,15 +13,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by florian on 16/4/9.
  */
 @Service
 public class UserServiceImpl implements UserService {
-
-    private static String BOOK_SEP = ";";
-    private static String COUNT_SEP = ":";
 
     @Autowired
     private UserRepository userRepository;
@@ -60,19 +58,7 @@ public class UserServiceImpl implements UserService {
             throw new BookException("invalid cart");
         }
 
-        StringBuffer stringBuffer = new StringBuffer();
-        List<BookCount> bookCounts = cart.getBookCounts();
-        for (BookCount bookCount : bookCounts) {
-            Book book = bookCount.getBook();
-            int count = bookCount.getCount();
-            if (book == null || count < 1) {
-                throw new BookException("invalid cart");
-            }
-
-            stringBuffer.append(book.getId() + COUNT_SEP + count + BOOK_SEP);
-        }
-
-        return stringBuffer.toString();
+        return Cart.toInnerString(cart);
     }
 
     //把字符串转化为Cart对象
@@ -81,17 +67,11 @@ public class UserServiceImpl implements UserService {
             throw new BookException("invalid cart value ", value);
         }
 
-        //获取书-数量对
         Cart cart = new Cart();
-        String[] pairs = value.split(BOOK_SEP);
-        for (String pair : pairs) {
-            //获取书、数量
-            String[] kv = pair.split(COUNT_SEP);
-            if (kv.length != 2) {
-                continue;
-            }
-            String id = kv[0];
-            int count = Integer.parseInt(kv[1]);
+        Map<String, Integer> bookCountMap = Cart.getBookCountMap(value);
+        for (String id : bookCountMap.keySet()) {
+            int count = bookCountMap.get(id);
+
             BookCount bookCount = new BookCount();
             bookCount.setBook(bookService.getBook(id));
             bookCount.setCount(count);

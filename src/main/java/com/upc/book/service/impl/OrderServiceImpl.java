@@ -4,6 +4,7 @@ import com.upc.book.entity.Book;
 import com.upc.book.entity.Order;
 import com.upc.book.entity.User;
 import com.upc.book.exception.BookException;
+import com.upc.book.pojo.Cart;
 import com.upc.book.pojo.OrderDTO;
 import com.upc.book.repository.OrderRepository;
 import com.upc.book.service.BookService;
@@ -17,15 +18,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by florian on 16/4/9.
  */
 @Service
 public class OrderServiceImpl implements OrderService {
-
-    private static String BOOK_SEP = ";";
-    private static String COUNT_SEP = ":";
 
     @Autowired
     private OrderRepository orderRepository;
@@ -80,17 +79,9 @@ public class OrderServiceImpl implements OrderService {
             throw new BookException("invalid cart value ", value);
         }
 
-        //获取书-数量对
         List<Book> books = new ArrayList<>();
-        String[] pairs = value.split(BOOK_SEP);
-        for (String pair : pairs) {
-            //获取书、数量
-            String[] kv = pair.split(COUNT_SEP);
-            if (kv.length != 2) {
-                continue;
-            }
-            String id = kv[0];
-            int count = Integer.parseInt(kv[1]);
+        Map<String, Integer> bookCountMap = Cart.getBookCountMap(value);
+        for (String id : bookCountMap.keySet()) {
             books.add(bookService.getBook(id));
         }
 
@@ -120,6 +111,16 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<Order> getOrders(String userId) throws BookException {
         List<Order> orders = orderRepository.findByUserIdOrderByTimestampDesc(userId);
+        if (orders == null) {
+            orders = new ArrayList<>();
+        }
+
+        return orders;
+    }
+
+    @Override
+    public List<Order> getAllOrders() throws BookException {
+        List<Order> orders = orderRepository.findAll();
         if (orders == null) {
             orders = new ArrayList<>();
         }
