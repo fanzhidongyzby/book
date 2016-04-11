@@ -24,7 +24,7 @@ public class RuleServiceImpl implements RuleService {
     private OrderService orderService;
 
     //从订单表内解析出所有的项ID列表
-    private OrderList createOrderList() throws BookException {
+    public OrderList createOrderList() throws BookException {
         OrderList orderList = new OrderList();
         List<Item> items = orderList.getItems();
 

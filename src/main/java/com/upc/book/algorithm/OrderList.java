@@ -1,6 +1,7 @@
 package com.upc.book.algorithm;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -15,5 +16,12 @@ public class OrderList {
 
     public void setItems(List<Item> items) {
         this.items = items;
+    }
+
+    @Override
+    public String toString() {
+        return "OrderList{" +
+                "items=" + Arrays.toString(items.toArray()) +
+                '}';
     }
 }

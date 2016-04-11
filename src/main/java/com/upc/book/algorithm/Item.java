@@ -1,5 +1,6 @@
 package com.upc.book.algorithm;
 
+import java.util.Arrays;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -27,5 +28,12 @@ public class Item {
 
     public void setElements(TreeSet<String> elements) {
         this.elements = elements;
+    }
+
+    @Override
+    public String toString() {
+        return "Item{" +
+                "elements=" + Arrays.toString(elements.toArray()) +
+                '}';
     }
 }
