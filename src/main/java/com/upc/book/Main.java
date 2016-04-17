@@ -9,12 +9,12 @@ public class Main {
 
   public static void main(String[] args) {
     ConfigurableApplicationContext ctx = SpringApplication.run(ApplicationConfig.class, args);
-    BookService bookService = ctx.getBean(BookService.class);
-    try {
-      bookService.initBooks();
-    } catch (BookException e) {
-      e.printStackTrace();
-    }
+//    BookService bookService = ctx.getBean(BookService.class);
+//    try {
+//      bookService.initBooks();
+//    } catch (BookException e) {
+//      e.printStackTrace();
+//    }
     System.out.println("Book Server Start Success !");
   }
 }
