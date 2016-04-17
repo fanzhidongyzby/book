@@ -7,7 +7,10 @@ import java.util.*;
  */
 public class ItemCollection {
 
-  public ItemCollection() {}
+  Map<Item, Integer> itemCountMap = new HashMap<>();
+
+  public ItemCollection() {
+  }
 
   public ItemCollection(OrderList orderList) {
     List<Item> items = orderList.getItems();
@@ -24,39 +27,66 @@ public class ItemCollection {
     }
   }
 
-  //根据最小支持度过滤项集
+  //过滤：根据最小支持度过滤项集
   public static ItemCollection filter(ItemCollection itemCollection, int minSupportValue) {
-    ItemCollection resultItemCollection = new ItemCollection();
-    Map<Item, Integer> resultItemCountMap = resultItemCollection.getItemCountMap();
+    ItemCollection itemCollectionResult = new ItemCollection();
+    Map<Item, Integer> itemCountMapResult = itemCollectionResult.getItemCountMap();
 
     Map<Item, Integer> itemCountMap = itemCollection.getItemCountMap();
     for (Item item : itemCountMap.keySet()) {
       Integer value = itemCountMap.get(item);
       if (value >= minSupportValue) {
-        resultItemCountMap.put(item, value);
+        itemCountMapResult.put(item, value);
       }
     }
 
-    return resultItemCollection;
+    return itemCollectionResult;
   }
 
-  //裁剪
-  public static ItemCollection trim(ItemCollection itemCollection) {
-    ItemCollection resultItemCollection = new ItemCollection();
-    Map<Item, Integer> resultItemCountMap = resultItemCollection.getItemCountMap();
+  //裁剪：
+  public static ItemCollection trim(ItemCollection joinedItemCollection, ItemCollection itemCollection) {
+    ItemCollection itemCollectionResult = new ItemCollection();
+    Map<Item, Integer> itemCountMapResult = itemCollectionResult.getItemCountMap();
 
-    resultItemCollection.setItemCountMap(resultItemCountMap);
+    Map<Item, Integer> joinedItemCountMap = joinedItemCollection.getItemCountMap();
+    Set<Item> items = itemCollection.getItemCountMap().keySet();
 
-    return resultItemCollection;
+    for (Item joinedItem : joinedItemCountMap.keySet()) {
+      List<Item> subItems = Item.getSubItems(joinedItem);
+      if (items.containsAll(subItems)) {
+        itemCountMapResult.put(joinedItem,joinedItemCountMap.get(joinedItem));
+      }
+    }
+
+    return itemCollectionResult;
   }
 
-  Map<Item, Integer> itemCountMap = new HashMap<>();
+  //连接：公共前缀归并
+  public static ItemCollection join(ItemCollection itemCollection) {
+    ItemCollection itemCollectionResult = new ItemCollection();
+    Map<Item, Integer> itemCountMapResult = itemCollectionResult.getItemCountMap();
+
+    Map<Item, Integer> itemCountMap = itemCollection.getItemCountMap();
+    Object[] items = itemCountMap.keySet().toArray();
+    for (int i = 0; i < items.length - 1; i++) {
+      for (int j = i + 1; j < items.length; j++) {
+        Item itemLeft = (Item)items[i];
+        Item itemRight = (Item)items[j];
+        Item joinedItem = Item.join(itemLeft, itemRight);
+        if (!joinedItem.getElements().isEmpty()) {
+          itemCountMapResult.put(joinedItem, 1);
+        }
+      }
+    }
+
+    return itemCollectionResult;
+  }
 
   public Map<Item, Integer> getItemCountMap() {
-        return itemCountMap;
-    }
+    return itemCountMap;
+  }
 
   public void setItemCountMap(Map<Item, Integer> itemCountMap) {
-        this.itemCountMap = itemCountMap;
-    }
+    this.itemCountMap = itemCountMap;
+  }
 }
