@@ -18,6 +18,6 @@ public class RuleServiceImplTest extends BaseTest {
     @Override
     public void doTest() throws BookException {
         OrderList orderList = ruleService.createOrderList();
-        System.out.println(orderList);
+        System.out.println("Test: " + orderList);
     }
 }
