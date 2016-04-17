@@ -1,4 +1,4 @@
-package com.upc.book.algorithm;
+package com.upc.book.rule;
 
 import java.util.HashMap;
 import java.util.Map;

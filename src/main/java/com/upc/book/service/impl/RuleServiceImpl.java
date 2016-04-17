@@ -1,7 +1,7 @@
 package com.upc.book.service.impl;
 
-import com.upc.book.algorithm.Item;
-import com.upc.book.algorithm.OrderList;
+import com.upc.book.rule.Item;
+import com.upc.book.rule.OrderList;
 import com.upc.book.entity.Order;
 import com.upc.book.exception.BookException;
 import com.upc.book.pojo.Cart;
@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Created by florian on 16/4/11.
