@@ -4,6 +4,8 @@ import com.upc.book.entity.Association;
 import com.upc.book.entity.Book;
 import com.upc.book.exception.BookException;
 import com.upc.book.repository.AssociationRepository;
+import com.upc.book.rule.Item;
+import com.upc.book.rule.Rule;
 import com.upc.book.service.AssociationService;
 import com.upc.book.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,8 +58,34 @@ public class AssociationServiceImpl implements AssociationService {
   }
 
   @Override
-  public Association saveAssociation(Association book) throws BookException {
+  public Association saveAssociation(Association association) throws BookException {
     return null;
+  }
+
+  @Override
+  public List<Association> saveRules(List<Rule> rules) throws BookException {
+    List<Association> associations = new ArrayList<>();
+    for (Rule rule : rules) {
+      Item left = rule.getLeft();
+      Item right = rule.getRight();
+      double confidence = rule.getConfidence();
+      if (left.getElements().size() == 1 && right.getElements().size() == 1) {
+        Association association = new Association();
+        association.setX(left.getElements().first());
+        association.setY(right.getElements().first());
+        association.setPercent(confidence);
+
+        associations.add(association);
+      }
+    }
+
+    associationRepository.deleteAll();
+    associations = associationRepository.save(associations);
+    if (associations == null) {
+      throw new BookException("save rules failed");
+    }
+
+    return associations;
   }
 
   @Override

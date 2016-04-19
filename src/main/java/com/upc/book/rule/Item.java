@@ -1,5 +1,10 @@
 package com.upc.book.rule;
 
+
+import org.apache.commons.collections4.ListUtils;
+
+import java.lang.reflect.Array;
+import java.net.CookieHandler;
 import java.util.*;
 
 /**
@@ -19,7 +24,7 @@ public class Item {
     elements.add(bookId);
   }
 
-  public Item(Set<String> bookIds) {
+  public Item(Collection<String> bookIds) {
     if (bookIds == null) {
       return;
     }
@@ -27,6 +32,10 @@ public class Item {
     for (String bookId : bookIds) {
       elements.add(bookId);
     }
+  }
+
+  public boolean contains(Item item) {
+    return elements.containsAll(item.elements);
   }
 
   private static boolean canJoin(Item itemLeft, Item itemRight) {
@@ -55,7 +64,7 @@ public class Item {
     return resultItem;
   }
 
-  public static List<Item> getSubItems(Item joinedItem) {
+  public static List<Item> getOriginSubItems(Item joinedItem) {
     List<Item> subItems = new ArrayList<>();
     Iterator<String> iterator = joinedItem.elements.iterator();
     while(iterator.hasNext()) {
@@ -66,6 +75,46 @@ public class Item {
       subItems.add(subItem);
     }
     return subItems;
+  }
+
+  private static List<ItemPair> partitionPairs(Item item) {
+    List<ItemPair> itemPairs = new ArrayList<>();
+
+    if (item.elements.size() < 2) {
+      itemPairs.add(new ItemPair(item));
+      return itemPairs;
+    }
+
+    String lastElement = item.elements.last();
+    SortedSet<String> subItemElements = item.elements.headSet(lastElement);
+
+    Item lastElementItem = new Item(lastElement);
+    Item subItem = new Item(subItemElements);
+
+    List<ItemPair> subItemPairs = partitionPairs(subItem);
+    for (ItemPair subItemPair : subItemPairs) {
+      itemPairs.add(subItemPair.expend(lastElementItem, subItemPair));
+      itemPairs.add(subItemPair.expend(subItemPair, lastElementItem));
+    }
+
+    return itemPairs;
+  }
+
+  public static List<ItemPair> getSubItemPairs(Item item) {
+    List<ItemPair> itemPairs = partitionPairs(item);
+    itemPairs.remove(itemPairs.size() - 1);
+
+    return itemPairs;
+  }
+
+  public String prettyFormat() {
+    StringBuffer stringBuffer = new StringBuffer(elements.first());
+
+    for (String element : elements.tailSet(elements.first(), false)) {
+      stringBuffer.append(" ^ " + element);
+    }
+
+    return stringBuffer.toString();
   }
 
   public TreeSet<String> getElements() {

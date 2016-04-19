@@ -14,14 +14,33 @@ public class ItemCollection {
 
   public ItemCollection(OrderList orderList) {
     List<Item> items = orderList.getItems();
-    for (Item item : items) {
-      TreeSet<String> elements = item.getElements();
-      for (String element : elements) {
-        Item elemItem = new Item(element);
-        if (itemCountMap.containsKey(elemItem)) {
-          itemCountMap.put(elemItem, itemCountMap.get(elemItem) + 1);
-        } else {
-          itemCountMap.put(elemItem, 1);
+
+    //第一次生成1项集
+    if (itemCountMap.isEmpty()) {
+      for (Item item : items) {
+        TreeSet<String> elements = item.getElements();
+        for (String element : elements) {
+          Item elemItem = new Item(element);
+          itemCountMap.put(elemItem, 0);
+        }
+      }
+    }
+  }
+
+  public boolean isEmpty() {
+    return itemCountMap.isEmpty();
+  }
+
+  //对项集计数
+  public void countItem(OrderList orderList) {
+    List<Item> items = orderList.getItems();
+
+    //对于任意项集
+    Set<Item> countItems = itemCountMap.keySet();
+    for (Item countItem : countItems) {
+      for (Item item : items) {
+        if (item.contains(countItem)) {
+          itemCountMap.put(countItem, itemCountMap.get(countItem) + 1);
         }
       }
     }
@@ -52,7 +71,7 @@ public class ItemCollection {
     Set<Item> items = itemCollection.getItemCountMap().keySet();
 
     for (Item joinedItem : joinedItemCountMap.keySet()) {
-      List<Item> subItems = Item.getSubItems(joinedItem);
+      List<Item> subItems = Item.getOriginSubItems(joinedItem);
       if (items.containsAll(subItems)) {
         itemCountMapResult.put(joinedItem,joinedItemCountMap.get(joinedItem));
       }
@@ -74,12 +93,23 @@ public class ItemCollection {
         Item itemRight = (Item)items[j];
         Item joinedItem = Item.join(itemLeft, itemRight);
         if (!joinedItem.getElements().isEmpty()) {
-          itemCountMapResult.put(joinedItem, 1);
+          itemCountMapResult.put(joinedItem, 0);
         }
       }
     }
 
     return itemCollectionResult;
+  }
+
+  //合并项集列表的所有项集到一个项集内，用于生成规则时查询
+  public static ItemCollection merge(List<ItemCollection> itemCollectionList) {
+    ItemCollection mergedItemCollection = new ItemCollection();
+
+    for (ItemCollection itemCollection : itemCollectionList) {
+      mergedItemCollection.itemCountMap.putAll(itemCollection.itemCountMap);
+    }
+
+    return mergedItemCollection;
   }
 
   public Map<Item, Integer> getItemCountMap() {
