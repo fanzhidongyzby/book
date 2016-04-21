@@ -1,10 +1,6 @@
 package com.upc.book.rule;
 
 
-import org.apache.commons.collections4.ListUtils;
-
-import java.lang.reflect.Array;
-import java.net.CookieHandler;
 import java.util.*;
 
 /**
