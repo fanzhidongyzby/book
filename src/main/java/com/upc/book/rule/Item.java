@@ -90,21 +90,30 @@ public class Item {
   private static List<ItemPair> partitionPairs(Item item) {
     List<ItemPair> itemPairs = new ArrayList<>();
 
+    //递归终止条件
     if (item.elements.size() < 2) {
       itemPairs.add(new ItemPair(item));
       return itemPairs;
     }
 
+    //待二分集合的最后一个元素
     String lastElement = item.elements.last();
+    //除了最后一个元素的其他元素的集合
     SortedSet<String> subItemElements = item.elements.headSet(lastElement);
 
+    //把集合转换为Item类型
     Item lastElementItem = new Item(lastElement);
     Item subItem = new Item(subItemElements);
 
+    //递归调用少一个元素集合的情况
     List<ItemPair> subItemPairs = partitionPairs(subItem);
+
+    //把递归的结果合并出来
     for (ItemPair subItemPair : subItemPairs) {
-      itemPairs.add(subItemPair.expend(lastElementItem, subItemPair));
-      itemPairs.add(subItemPair.expend(subItemPair, lastElementItem));
+      //左扩展
+      itemPairs.add(ItemPair.expend(lastElementItem, subItemPair));
+      //右扩展
+      itemPairs.add(ItemPair.expend(subItemPair, lastElementItem));
     }
 
     return itemPairs;

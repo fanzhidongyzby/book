@@ -8,11 +8,13 @@ public class ItemPair {
     Item right;
 
     public ItemPair() {
-        this(new Item());
+        this.left = new Item();
+        this.right = new Item();
     }
 
     public ItemPair(Item item) {
-        this(new Item(), item);
+        this.left = new Item();
+        this.right = item;
     }
 
     public ItemPair(Item left, Item right) {
@@ -20,6 +22,7 @@ public class ItemPair {
         this.right = right;
     }
 
+    //把item的数据放在itemPair的left项集合
     public static ItemPair expend(Item item, ItemPair itemPair) {
         ItemPair itemPairResult = new ItemPair();
         itemPairResult.left.getElements().addAll(itemPair.getLeft().getElements());
@@ -29,6 +32,7 @@ public class ItemPair {
         return itemPairResult;
     }
 
+    //把item的数据放在itemPair的right项集合
     public static ItemPair expend(ItemPair itemPair, Item item) {
         ItemPair itemPairResult = new ItemPair();
         itemPairResult.left.getElements().addAll(itemPair.getLeft().getElements());

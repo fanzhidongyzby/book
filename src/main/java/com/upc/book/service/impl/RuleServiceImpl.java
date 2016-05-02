@@ -86,6 +86,9 @@ public class RuleServiceImpl implements RuleService {
             //处理每一项
             Set<Item> items = itemCountMap.keySet();
             for (Item item : items) {
+                //二分前的总的支持度
+                Integer totalSupportValue = itemCountMap.get(item);
+
                 //获取项的所有二分子项对
                 List<ItemPair> subItemPairs = Item.getSubItemPairs(item);
                 for (ItemPair itemPair : subItemPairs) {
@@ -97,7 +100,6 @@ public class RuleServiceImpl implements RuleService {
                     Integer rightSupportValue = allItemCountMap.get(right);
 
                     //计算可信度
-                    Integer totalSupportValue = itemCountMap.get(item);
                     double leftConfidence = totalSupportValue / (double) leftSupportValue;
                     double rightConfidence = totalSupportValue / (double) rightSupportValue;
 
