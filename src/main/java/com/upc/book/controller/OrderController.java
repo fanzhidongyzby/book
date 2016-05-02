@@ -25,6 +25,7 @@ public class OrderController extends Controller {
 
     @RequestMapping(method = RequestMethod.POST)
     public boolean generatorOrder() throws BookException {
+        //生成订单，将用户表的cart字段拷贝到order表（会创建一个新的订单的记录）
         return orderService.genOrder(getUserId()) != null;
     }
 

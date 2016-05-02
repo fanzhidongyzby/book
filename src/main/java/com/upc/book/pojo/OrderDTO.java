@@ -5,10 +5,12 @@ import com.upc.book.entity.Book;
 import java.io.Serializable;
 import java.util.List;
 
+//这是个order类的变形，用于给前端提供数据用的
 public class OrderDTO implements Serializable {
 
     String id;
 
+    //这个字段来源于order的cart
     List<Book> books;
 
     String timestamp;

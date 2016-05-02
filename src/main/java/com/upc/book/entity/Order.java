@@ -25,11 +25,11 @@ public class Order implements Serializable {
     @DateTimeFormat
     String timestamp;
 
-    public String getUsername() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUsername(String userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 

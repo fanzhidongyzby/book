@@ -28,6 +28,7 @@
 
                 $scope.cart = data;
                 if (data) {
+                    //计算购物车内书的总价total
                     var sum = 0;
                     for (var index = 0; index < data.bookCounts.length; index++) {
                         bookCount = data.bookCounts[index];
@@ -124,6 +125,7 @@
                         {{bookCount.book.price}}
                     </td>
                     <td>
+                        <!-- 书的个数 ，count与book同级 -->
                         {{bookCount.count}}
                     </td>
                 </tr>

@@ -81,10 +81,14 @@ public class UserServiceImpl implements UserService {
     private Cart parseCart(String value) throws BookException {
 
         Cart cart = new Cart();
+
+        //根据字符串获取书id与count的映射
         Map<String, Integer> bookCountMap = Cart.getBookCountMap(value);
+
         for (String id : bookCountMap.keySet()) {
             int count = bookCountMap.get(id);
 
+            //根据书id查询书的对象book
             BookCount bookCount = new BookCount();
             bookCount.setBook(bookService.getBook(id));
             bookCount.setCount(count);
@@ -109,23 +113,31 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean addToCart(String userId, String bookId, int count) throws BookException {
+        //根据用户id查询用户表
         User user = userRepository.findOne(userId);
         if (user == null) {
             throw new BookException("invalid user id");
         }
 
+        //取出用户表内的cart字符串，转化为Cart对象
         Cart cart = this.parseCart(user.getCart());
+
+        //根据书的id查询book表，获取图书
         Book book = bookService.getBook(bookId);
 
         if (book == null || count < 1) {
             throw new BookException("invalid book or count");
         }
 
+        // 添加count本书到购物车
         if (!cart.addBook(book, count)) {
             return false;
         }
 
+        //再把cart对象转化为字符串，存储到user对象
         user.setCart(this.formatCart(cart));
+
+        //保存更新好的user对象到数据库
         user = userRepository.save(user);
         if (user == null) {
             throw new BookException("add cart failed");

@@ -41,18 +41,22 @@ public class OrderServiceImpl implements OrderService {
             throw new BookException("invalid user or cart");
         }
 
+        //获取当前时间
         String now = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
 
+        //新建订单
         Order order = new Order();
-        order.setUsername(user.getId());
-        order.setCart(user.getCart());
-        order.setTimestamp(now);
+        order.setUserId(user.getId());//设置用户id
+        order.setCart(user.getCart());//拷贝购物车信息到订单
+        order.setTimestamp(now);//设置订单提交时间
 
+        //保存订单
         order = orderRepository.save(order);
         if (order == null) {
             throw new BookException("save order failed");
         }
 
+        //清空购物车
         userService.cleanCart(userId);
 
         return order;
@@ -90,6 +94,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<OrderDTO> getOrderDTOs(String userId) throws BookException {
+
+        //从数据库获取所有订单对象
         List<Order> orders = getOrders(userId);
 
         List<OrderDTO> orderDTOs = new ArrayList<>();

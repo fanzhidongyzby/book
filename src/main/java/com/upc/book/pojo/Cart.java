@@ -13,14 +13,24 @@ public class Cart {
     private static String BOOK_SEP = ";";
     private static String COUNT_SEP = ":";
 
+    List<BookCount> bookCounts = new ArrayList<>();
+
+    public List<BookCount> getBookCounts() {
+        return bookCounts;
+    }
+
+    public void setBookCounts(List<BookCount> bookCounts) {
+        this.bookCounts = bookCounts;
+    }
+
     public static Map<String, Integer> getBookCountMap(String value) {
         Map<String, Integer> map = new HashMap<>();
         if (value == null) {
             return map;
         }
 
-        //获取书-数量对
-        String[] pairs = value.split(BOOK_SEP);
+        //获取书-数量对: 如3:2;4:5; 返回 [ "3:2", "4:5" ]
+        String[] pairs = value.split(BOOK_SEP);// split 用于分隔字符串，返回分隔后的字符串数组
         for (String pair : pairs) {
             //获取书、数量
             String[] kv = pair.split(COUNT_SEP);
@@ -28,6 +38,7 @@ public class Cart {
                 continue;
             }
             String id = kv[0];
+            // 字符串转换为整数
             int count = Integer.parseInt(kv[1]);
             map.put(id, count);
         }
@@ -55,8 +66,6 @@ public class Cart {
         return stringBuffer.toString();
     }
 
-    List<BookCount> bookCounts = new ArrayList<>();
-
     public boolean addBook(Book book, int count) {
         if (book == null || count < 1) {
             return false;
@@ -64,12 +73,14 @@ public class Cart {
         BookCount bookCount = new BookCount();
         bookCount.setBook(book);
         bookCount.setCount(count);
+
+        //查询bookcount在列表李的位置，不存在返回－1
         int index = bookCounts.indexOf(bookCount);
         if (index == -1) {
             bookCounts.add(bookCount);
         } else {
-            bookCount = bookCounts.get(index);
-            bookCount.setCount(bookCount.getCount() + count);
+            BookCount oldBookCount = bookCounts.get(index);
+            oldBookCount.setCount(oldBookCount.getCount() + count);
         }
 
         return true;
@@ -98,14 +109,6 @@ public class Cart {
         }
 
         return true;
-    }
-
-    public List<BookCount> getBookCounts() {
-        return bookCounts;
-    }
-
-    public void setBookCounts(List<BookCount> bookCounts) {
-        this.bookCounts = bookCounts;
     }
 
     @Override
