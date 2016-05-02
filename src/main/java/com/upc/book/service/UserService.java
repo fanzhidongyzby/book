@@ -6,6 +6,8 @@ import com.upc.book.pojo.Cart;
 
 public interface UserService {
 
+    String addUser(User user) throws BookException;
+
     String validUser(String userName, String password) throws BookException;
 
     User getUser(String userId) throws BookException;

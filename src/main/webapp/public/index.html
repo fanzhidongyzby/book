@@ -90,12 +90,54 @@
                 }
 
                 if (data) {
-//                    alert("已经添加到购物车!");
+                    window.open("cart.html");
                 } else {
                     alert("添加到购物车失败!");
                 }
             }).error(function (data, status) {
                 alert("添加到购物车失败!");
+            });
+        };
+
+        $scope.gen_rules = function () {
+            $http({
+                method: "GET",
+                url: "/api/rules",
+                data: "",
+                headers: {"Content-Type": "application/json"}
+            }).success(function (data, status) {
+                if (status != 200) {
+                    return;
+                }
+
+                if (data) {
+                    alert("生成的关联规则有:\n" + data);
+                } else {
+                    alert("生成规则失败!");
+                }
+            }).error(function (data, status) {
+                alert("生成规则失败!");
+            });
+        };
+
+        $scope.clear_rules = function () {
+            $http({
+                method: "DELETE",
+                url: "/api/rules",
+                data: "",
+                headers: {"Content-Type": "application/json"}
+            }).success(function (data, status) {
+                if (status != 200) {
+                    return;
+                }
+
+                if (data) {
+                    alert("清除规则成功!");
+                } else {
+                    alert("清除规则失败!");
+                }
+            }).error(function (data, status) {
+                alert("清除规则失败!");
             });
         };
     }
@@ -112,12 +154,7 @@
                 <li class="active">
                     <a href="#">首页</a>
                 </li>
-                <li>
-                    <a href="#">特色推荐</a>
-                </li>
-                <li class="disabled">
-                    <a href="#">信息</a>
-                </li>
+
                 <li class="dropdown pull-right">
                     <a href="#" data-toggle="dropdown" class="dropdown-toggle">个人中心<strong class="caret"></strong></a>
                     <ul class="dropdown-menu">
@@ -126,6 +163,12 @@
                         </li>
                         <li>
                             <a href="order.html">我的订单</a>
+                        </li>
+                        <li>
+                            <a ng-click="gen_rules()">生成规则</a>
+                        </li>
+                        <li>
+                            <a ng-click="clear_rules()">清除规则</a>
                         </li>
                         <li class="divider">
                         </li>
@@ -138,31 +181,28 @@
             <div class="row-fluid">
                 <div class="span3">
                     <ul class="nav nav-list">
-                        <li class="nav-header">
-                            列表标题
+                        <li>
+                            <a class="alert-info" href="#all">全部</a>
                         </li>
-                        <li class="active">
-                            <a href="#">英语</a>
+                        <li class="divider"></li>
+                        <li class="nav-header">分类</li>
+                        <li class="inactive">
+                        <a href="#english">英语</a>
                         </li>
                         <li>
-                            <a href="#">艺术</a>
+                        <a href="#art" ng-class="{true: 'active', false: 'inactive'}[true]">艺术</a>
                         </li>
                         <li>
-                            <a href="#">人文社科</a>
+                        <a href="#social">人文社科</a>
                         </li>
                         <li>
-                            <a href="#">教育</a>
+                        <a href="#education">教育</a>
                         </li>
                         <li>
-                            <a href="#">计算机</a>
+                        <a href="#computer">计算机</a>
                         </li>
                         <li>
-                            <a href="#">生活</a>
-                        </li>
-                        <li class="divider">
-                        </li>
-                        <li>
-                            <a class="alert-danger">全部</a>
+                        <a href="#life">生活</a>
                         </li>
                     </ul>
                 </div>

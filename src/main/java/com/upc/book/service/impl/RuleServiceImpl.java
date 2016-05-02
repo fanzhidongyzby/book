@@ -26,14 +26,19 @@ public class RuleServiceImpl implements RuleService {
     //从订单表内解析出所有的项ID列表
     public OrderList createOrderList() throws BookException {
         OrderList orderList = new OrderList();
-        List<Item> items = orderList.getItems();
+        List<Item> items = new ArrayList<>();//orderList.getItems();
 
+        // 从order数据库获取所有的订单数据
         List<Order> allOrders = orderService.getAllOrders();
         for (Order order : allOrders) {
+            //把订单保存的字符串转换为书id和对应数量的map
             Map<String, Integer> bookCountMap = Cart.getBookCountMap(order.getCart());
+            //抽取映射关系内的所有的书id，并转换为item对象
             Item item = new Item(bookCountMap.keySet());
             items.add(item);
         }
+
+        orderList.setItems(items);
 
         return orderList;
     }
@@ -50,13 +55,13 @@ public class RuleServiceImpl implements RuleService {
             //对项集计数
             itemCollection.countItem(orderList);
 
-            //移除支持度不足的项
+            //移除支持度不足的项，参数itemCollection是任意整个项集
             itemCollection = ItemCollection.filter(itemCollection, minSupportValue);
 
             //添加到项集列表
             itemCollectionList.add(itemCollection);
 
-            //连接操作，产生候选项集
+            //连接操作，产生候选项集（例如产生支持度都为零的候选二项集）
             ItemCollection joinedItemCollection = ItemCollection.join(itemCollection);
 
             //对候选项集进行剪枝操作

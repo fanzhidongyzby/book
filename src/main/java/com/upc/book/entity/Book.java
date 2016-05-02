@@ -108,7 +108,7 @@ public class Book implements Serializable {
 
     Book book = (Book) o;
 
-    return id.equals(book.id);
+    return this.id.equals(book.id);
 
   }
 

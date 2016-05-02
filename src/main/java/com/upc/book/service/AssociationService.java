@@ -21,5 +21,7 @@ public interface AssociationService {
 
     void deleteAssociation(String id) throws BookException;
 
+    void clearAssociation() throws BookException;
+
     List<Book> getAssoBooks(String id) throws BookException;
 }

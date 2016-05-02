@@ -26,9 +26,8 @@
                 </div>
                 <div class="span7">
                     <form>
-                        价格:<input type="text" name="lastname"/><br/><br/><br/><br/> 数量:<input type="text"
-                                                                                              name="lastname"/><br/><br/>
-                        <button type="button" class="btn btn-primary">购买</button>
+                        价格:{{book.price}}<br/><br/><br/><br/> 数量:<input type="text" value="1" ng-model="count"/><br/><br/>
+                        <button type="button" class="btn btn-primary" ng-click="addToCart(book.id, count)">购买</button>
                     </form>
                 </div>
             </div>
@@ -58,7 +57,7 @@
                                 <p>{{assoBook.description}}</p>
 
                                 <p>
-                                    <a class="btn btn-primary" ng-click="addToCart(assoBook.id)">添加到购物车</a>
+                                    <a class="btn btn-primary" ng-click="addToCart(assoBook.id, 1)">添加到购物车</a>
                                 </p>
                             </div>
                         </div>
@@ -78,6 +77,8 @@
         $locationProvider.html5Mode(true);
     }]);
     bookApp.controller('book', ['$scope', '$http', '$location', function ($scope, $http, $location) {
+        $scope.count = 1;
+
         $http({
             method: "GET",
             url: "/api/books/" + $location.search().id,
@@ -108,10 +109,10 @@
             alert("获取图书信息失败!");
         });
 
-        $scope.addToCart = function (id) {
+        $scope.addToCart = function (id, count) {
             $http({
                 method: "POST",
-                url: "/api/cart/inc?id=" + id + "&count=1",
+                url: "/api/cart/inc?id=" + id + "&count=" + count,
                 data: "",
                 headers: {"Content-Type": "application/json"}
             }).success(function (data, status) {
@@ -120,7 +121,7 @@
                 }
 
                 if (data) {
-//                    alert("已经添加到购物车!");
+                    window.open("cart.html");
                 } else {
                     alert("添加到购物车失败!");
                 }

@@ -20,24 +20,35 @@ import java.util.List;
 @RequestMapping("/api/rules")
 public class RuleController extends Controller {
   @RequestMapping(method = RequestMethod.GET)
-  public List<Rule> getAllRules() throws BookException {
-    int minSupportValue = configuration.getInt("book.support.value.min");
-    int maxItemCollectionCount = configuration.getInt("book.item.collection.count.max");
-    double minConfidence = configuration.getDouble("book.confidence.min");
+  public String getAllRules() throws BookException {
+    int minSupportValue = 2;
+    int maxItemCollectionCount = 10;
+    double minConfidence = 0.7;
 
     OrderList orderList = ruleService.createOrderList();
     List<ItemCollection> itemCollectionList = ruleService.getItemCollectionList(orderList, minSupportValue, maxItemCollectionCount);
     List<Rule> rules = ruleService.generateRules(itemCollectionList, minConfidence);
 
     System.out.println("=====生成规则=====");
+    StringBuffer buffer = new StringBuffer();
     for (Rule rule : rules) {
-      System.out.println(rule.prettyFormat());
+      String ruleString = rule.prettyFormat();
+      buffer.append(ruleString + "\n");
+      System.out.println(ruleString);
     }
     System.out.println("=================");
 
     associationService.saveRules(rules);
 
-    return rules;
+    return buffer.toString();
+  }
+
+  @RequestMapping(method = RequestMethod.DELETE)
+  public boolean clearAllRules() throws BookException {
+
+    associationService.clearAssociation();
+
+    return true;
   }
 
 }

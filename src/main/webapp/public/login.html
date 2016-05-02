@@ -19,12 +19,13 @@
                 method: "GET",
                 url: "/api/login",
                 data: "",
-                headers: {"Content-Type": "application/json"}
+                headers: {"Content-Type": "application/json"} //消息体的编码格式是json
             }).success(function (data, status) {
-                        if (status != 200) {
+                        if (status != 200) { //200 是HTTP code（响应包的状态码）
                             return;
                         }
                         if (data) {
+                            // location是浏览器内置对象，href字段用于url跳转
                             location.href = "index.html";
                         }
                     }
@@ -45,7 +46,7 @@
             $http({
                 method: "POST",
                 url: "/api/login",
-                data: JSON.stringify(user),
+                data: JSON.stringify(user),//把user对象序列化为json字符串
                 headers: {"Content-Type": "application/json"}
             }).success(function (data, status) {
                 if (status != 200) {
@@ -59,6 +60,36 @@
                 }
             }).error(function (data, status) {
                 alert("用户登录失败!");
+            });
+        };
+
+        $scope.register = function () {
+            var user = {};
+            user.userName = $scope.userName;
+            user.password = $scope.password;
+            if (!user.userName || !user.password) {
+                alert("用户名和密码不能为空!");
+                return;
+            }
+
+            $http({
+                method: "POST",
+                url: "/api/login/register",
+                data: JSON.stringify(user),//把user对象序列化为json字符串
+                headers: {"Content-Type": "application/json"}
+            }).success(function (data, status) {
+                if (status != 200) {
+                    return;
+                }
+
+                if (data) {
+                    alert("用户注册成功!");
+                    $scope.submit();
+                } else {
+                    alert("用户注册失败!");
+                }
+            }).error(function (data, status) {
+                alert("用户注册失败!");
             });
         };
     }
@@ -98,6 +129,7 @@
                             <div class="control-group">
                                 <div class="controls">
                                     <button type="submit" class="btn" ng-click="submit()">登录</button>
+                                    <button type="submit" class="btn" ng-click="register()">注册</button>
                                 </div>
                             </div>
                         </form>

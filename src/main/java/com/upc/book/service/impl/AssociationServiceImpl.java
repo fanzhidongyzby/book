@@ -90,6 +90,11 @@ public class AssociationServiceImpl implements AssociationService {
 
   @Override
   public void deleteAssociation(String id) throws BookException {
+    associationRepository.delete(id);
+  }
 
+  @Override
+  public void clearAssociation() throws BookException {
+    associationRepository.deleteAll();
   }
 }

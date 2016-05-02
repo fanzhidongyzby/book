@@ -19,6 +19,11 @@ public class LoginController extends Controller {
         return getUserId();
     }
 
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public String register(@RequestBody User user) throws BookException {
+        return userService.addUser(user);
+    }
+
     @RequestMapping(method = RequestMethod.POST)
     public boolean login(@RequestBody User user) throws BookException {
         String userId = userService.validUser(user.getUserName(), user.getPassword());

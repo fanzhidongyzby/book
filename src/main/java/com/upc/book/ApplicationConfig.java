@@ -46,6 +46,6 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter {
 
   @Override
   public void addInterceptors(InterceptorRegistry registry) {
-    registry.addInterceptor(new UserSecurityInterceptor()).addPathPatterns("/**").excludePathPatterns("/api/login").excludePathPatterns("/");
+    registry.addInterceptor(new UserSecurityInterceptor()).addPathPatterns("/**").excludePathPatterns("/api/login").excludePathPatterns("/api/login/**").excludePathPatterns("/");
   }
 }

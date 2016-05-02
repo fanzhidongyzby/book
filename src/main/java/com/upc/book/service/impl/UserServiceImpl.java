@@ -27,7 +27,23 @@ public class UserServiceImpl implements UserService {
     private BookService bookService;
 
 
-    @Override
+  @Override
+  public String addUser(User user) throws BookException {
+    if (user == null
+      ||!StringUtils.hasText(user.getUserName())
+      ||! StringUtils.hasText(user.getUserName())) {
+      throw new BookException("user info is not valid");
+    }
+
+    user = userRepository.save(user);
+    if (user == null) {
+      throw new BookException("add user failed");
+    }
+
+    return user.getId();
+  }
+
+  @Override
     public String validUser(String userName, String password) throws BookException {
         if (!StringUtils.hasText(userName) || !StringUtils.hasText(password)) {
             throw new BookException("invalid username or password");
@@ -63,9 +79,6 @@ public class UserServiceImpl implements UserService {
 
     //把字符串转化为Cart对象
     private Cart parseCart(String value) throws BookException {
-        if (value == null) {
-            throw new BookException("invalid cart value ", value);
-        }
 
         Cart cart = new Cart();
         Map<String, Integer> bookCountMap = Cart.getBookCountMap(value);

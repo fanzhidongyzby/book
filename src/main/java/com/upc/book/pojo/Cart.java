@@ -34,7 +34,7 @@ public class Cart {
 
         return map;
     }
-
+// 把购物车对象转换为字符串：1:10;2:9;
     public static String toInnerString(Cart cart) {
         StringBuffer stringBuffer = new StringBuffer();
         if (cart == null) {
@@ -48,6 +48,7 @@ public class Cart {
                 return stringBuffer.toString();
             }
 
+            //append字符串加法运算
             stringBuffer.append(book.getId() + COUNT_SEP + count + BOOK_SEP);
         }
 

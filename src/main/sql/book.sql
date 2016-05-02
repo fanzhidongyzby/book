@@ -39,16 +39,6 @@ CREATE TABLE `associations` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `associations`
---
-
-LOCK TABLES `associations` WRITE;
-/*!40000 ALTER TABLE `associations` DISABLE KEYS */;
-INSERT INTO `associations` VALUES ('1',0.6,'10','6'),('2',0.7,'10','7'),('3',0.8,'10','8'),('4',0.9,'10','9');
-/*!40000 ALTER TABLE `associations` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `books`
 --
 
