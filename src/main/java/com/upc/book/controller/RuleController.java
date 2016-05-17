@@ -1,11 +1,11 @@
 package com.upc.book.controller;
 
-import com.upc.book.entity.Association;
-import com.upc.book.entity.Book;
 import com.upc.book.exception.BookException;
 import com.upc.book.rule.ItemCollection;
 import com.upc.book.rule.OrderList;
 import com.upc.book.rule.Rule;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,14 +19,22 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/rules")
 public class RuleController extends Controller {
+  private static Logger LOG = LoggerFactory.getLogger(RuleController.class);
+
   @RequestMapping(method = RequestMethod.GET)
-  public String getAllRules() throws BookException {
+  public String getAllRules(@RequestParam(value = "compress", required = false, defaultValue = "false") boolean isTransactionCompress) throws BookException {
+    if (isTransactionCompress) {
+      LOG.debug("启用事务压缩算法生成关联规则 ...");
+    } else {
+      LOG.debug("生成关联规则 ...");
+    }
+
     int minSupportValue = 2;
     int maxItemCollectionCount = 10;
     double minConfidence = 0.7;
 
     OrderList orderList = ruleService.createOrderList();
-    List<ItemCollection> itemCollectionList = ruleService.getItemCollectionList(orderList, minSupportValue, maxItemCollectionCount);
+    List<ItemCollection> itemCollectionList = ruleService.getItemCollectionList(orderList, minSupportValue, maxItemCollectionCount, isTransactionCompress);
     List<Rule> rules = ruleService.generateRules(itemCollectionList, minConfidence);
 
     System.out.println("=====生成规则=====");

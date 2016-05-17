@@ -11,7 +11,7 @@ public interface RuleService {
 
     OrderList createOrderList() throws BookException;
 
-    List<ItemCollection> getItemCollectionList(OrderList orderList, int minSupportValue, int maxItemCollectionCount) throws BookException;
+    List<ItemCollection> getItemCollectionList(OrderList orderList, int minSupportValue, int maxItemCollectionCount, boolean isTransactionCompress) throws BookException;
 
     List<Rule> generateRules(List<ItemCollection> itemCollectionList, double minConfidence) throws BookException;
 

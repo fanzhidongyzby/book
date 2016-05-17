@@ -99,10 +99,11 @@
             });
         };
 
-        $scope.gen_rules = function () {
+        $scope.gen_rules = function (compress) {
+
             $http({
                 method: "GET",
-                url: "/api/rules",
+                url: "/api/rules?compress=" + compress,
                 data: "",
                 headers: {"Content-Type": "application/json"}
             }).success(function (data, status) {
@@ -165,7 +166,10 @@
                             <a target="_blank" href="order.html">我的订单</a>
                         </li>
                         <li>
-                            <a ng-click="gen_rules()">生成规则</a>
+                            <a ng-click="gen_rules(false)">生成规则</a>
+                        </li>
+                        <li>
+                          <a ng-click="gen_rules(true)">生成规则（事务压缩）</a>
                         </li>
                         <li>
                             <a ng-click="clear_rules()">清除规则</a>

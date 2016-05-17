@@ -44,7 +44,7 @@ public class RuleServiceImpl implements RuleService {
     }
 
     @Override
-    public List<ItemCollection> getItemCollectionList(OrderList orderList, int minSupportValue, int maxItemCollectionCount) throws BookException {
+    public List<ItemCollection> getItemCollectionList(OrderList orderList, int minSupportValue, int maxItemCollectionCount, boolean isTransactionCompress) throws BookException {
         List<ItemCollection> itemCollectionList = new ArrayList<>();
 
         //初始化1项集
@@ -53,7 +53,7 @@ public class RuleServiceImpl implements RuleService {
         //项集为空，或者达到最大项集个数，停止计算
         while (!itemCollection.isEmpty() && itemCollectionList.size() <= maxItemCollectionCount) {
             //对项集计数
-            itemCollection.countItem(orderList);
+            itemCollection.countItem(orderList, isTransactionCompress);
 
             //移除支持度不足的项，参数itemCollection是任意整个项集
             itemCollection = ItemCollection.filter(itemCollection, minSupportValue);

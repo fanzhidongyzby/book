@@ -1,11 +1,15 @@
 package com.upc.book.rule;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.*;
 
 /**
  * Created by florian on 16/4/11.
  */
 public class ItemCollection {
+  private static Logger LOG = LoggerFactory.getLogger(ItemCollection.class);
 
   Map<Item, Integer> itemCountMap = new HashMap<>();
 
@@ -32,19 +36,45 @@ public class ItemCollection {
   }
 
   //根据orderlist对项集计数
-  public void countItem(OrderList orderList) {
+  public void countItem(OrderList orderList, boolean isTransactionCompress) {
     List<Item> items = orderList.getItems();
+    List<Item> newItems = new ArrayList<>();
 
     //对于任意项集根据key取支持度，再对项集的项计数，更新支持度
     Set<Item> countItems = itemCountMap.keySet();
-    for (Item countItem : countItems) {
-      for (Item item : items) {
+
+    // 外层循环处理每个订单，以方便检查订单是否被扫描过
+    for (Item item : items) {
+      // 是否是有效项，用于事务压缩优化。对于不包含任何countItem的无效订单，订单将被移出orderList
+      boolean valid = false;
+
+      for (Item countItem : countItems) {
 
         //orderlist的每一项（订单）是否包含项集的项
         if (item.contains(countItem)) {
           Integer oldValue = itemCountMap.get(countItem);
           itemCountMap.put(countItem, oldValue + 1);
+
+          valid = true; //订单有效
         }
+      }
+
+      // 只有有效的订单才会记录到newItems，无效订单被剔除
+      if (valid) {
+        newItems.add(item);
+      }
+    }
+
+    //如果打开事务压缩开关，则更新订单列表的内容（无效的订单被删除了，以后不会再被扫描）
+    if (isTransactionCompress) {
+      orderList.setItems(newItems);
+
+      // 如果事务压缩算法起作用了，打印后台日志信息
+      if (newItems.size() != items.size()) {
+        LOG.debug("对{}项集计数时，使用事务压缩算法优化了{}条数据, 源数据为: {}, 优化后数据为: {}",
+          countItems.iterator().next().getElements().size(),
+          items.size() - newItems.size(),
+          Arrays.toString(items.toArray()), Arrays.toString(newItems.toArray()));
       }
     }
   }
