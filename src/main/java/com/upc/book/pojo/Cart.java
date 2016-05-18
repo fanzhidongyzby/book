@@ -23,6 +23,7 @@ public class Cart {
         this.bookCounts = bookCounts;
     }
 
+    //分割购物车中的数据，为了得到id与数量一一对应的map
     public static Map<String, Integer> getBookCountMap(String value) {
         Map<String, Integer> map = new HashMap<>();
         if (value == null) {

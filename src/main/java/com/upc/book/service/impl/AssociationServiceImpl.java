@@ -63,6 +63,7 @@ public class AssociationServiceImpl implements AssociationService {
   }
 
   @Override
+  //
   public List<Association> saveRules(List<Rule> rules) throws BookException {
     List<Association> associations = new ArrayList<>();
     for (Rule rule : rules) {

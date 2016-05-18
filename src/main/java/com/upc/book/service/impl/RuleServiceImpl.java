@@ -76,7 +76,7 @@ public class RuleServiceImpl implements RuleService {
     public List<Rule> generateRules(List<ItemCollection> itemCollectionList, double minConfidence) throws BookException {
         List<Rule> rules = new ArrayList<>();
 
-        //合并项集列表的所有项集到一个项集内，用于查询支持度
+        //合并项集列表的所有项集到一个大项集内，用于查询支持度
         Map<Item, Integer> allItemCountMap = ItemCollection.merge(itemCollectionList).getItemCountMap();
 
         //处理所有项集
@@ -86,12 +86,13 @@ public class RuleServiceImpl implements RuleService {
             //处理每一项
             Set<Item> items = itemCountMap.keySet();
             for (Item item : items) {
-                //二分前的总的支持度
+                //总的支持度
                 Integer totalSupportValue = itemCountMap.get(item);
 
                 //获取项的所有二分子项对
                 List<ItemPair> subItemPairs = Item.getSubItemPairs(item);
-                for (ItemPair itemPair : subItemPairs) {
+                for (
+                  ItemPair itemPair : subItemPairs) {
                     Item left = itemPair.getLeft();
                     Item right = itemPair.getRight();
 

@@ -1,8 +1,6 @@
 package com.upc.book.rule;
 
-/**
- * Created by florian on 16/4/19.
- */
+
 public class ItemPair {
     Item left;
     Item right;

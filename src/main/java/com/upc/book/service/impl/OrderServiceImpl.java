@@ -36,6 +36,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order genOrder(String userId) throws BookException {
+        //获取user对象，以获取id和cart
         User user = userService.getUser(userId);
         if (user == null || !StringUtils.hasText(user.getCart())) {
             throw new BookException("invalid user or cart");

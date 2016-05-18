@@ -12,12 +12,13 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/api/associations")
+//拿到所有关联信息 （）
 public class AssociationController extends Controller {
   @RequestMapping(method = RequestMethod.GET)
   public List<Association> getAll() throws BookException {
     return associationService.getAssociations();
   }
-
+//拿到所有关联书
   @RequestMapping(value = "books", method = RequestMethod.GET)
   public List<Book> getAssoBook(@RequestParam String id) throws BookException {
     return associationService.getAssoBooks(id);

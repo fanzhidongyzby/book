@@ -18,6 +18,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/api/rules")
+//生成规则
 public class RuleController extends Controller {
   private static Logger LOG = LoggerFactory.getLogger(RuleController.class);
 
@@ -36,6 +37,7 @@ public class RuleController extends Controller {
     OrderList orderList = ruleService.createOrderList();
     List<ItemCollection> itemCollectionList = ruleService.getItemCollectionList(orderList, minSupportValue, maxItemCollectionCount, isTransactionCompress);
     List<Rule> rules = ruleService.generateRules(itemCollectionList, minConfidence);
+
 
     System.out.println("=====生成规则=====");
     StringBuffer buffer = new StringBuffer();

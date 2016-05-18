@@ -31,7 +31,7 @@ public class Item {
   }
 
   public boolean contains(Item item) {
-    // containsAll 是Java TreeSet自带的函数
+    // containsAll 是Java TreeSet自带的函数,containsAll方法用于判断列表中是否包含指定collection的所有元素。
     return elements.containsAll(item.elements);
   }
 

@@ -44,6 +44,7 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
+  //验证用户登录信息，根据用户名查询用户，比较密码，都正确了返回id
     public String validUser(String userName, String password) throws BookException {
         if (!StringUtils.hasText(userName) || !StringUtils.hasText(password)) {
             throw new BookException("invalid username or password");
@@ -58,6 +59,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    //获取user对象，以获取id和cart
     public User getUser(String userId) throws BookException {
 
         User user = userRepository.findOne(userId);

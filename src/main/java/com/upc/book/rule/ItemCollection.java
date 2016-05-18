@@ -50,7 +50,7 @@ public class ItemCollection {
 
       for (Item countItem : countItems) {
 
-        //orderlist的每一项（订单）是否包含项集的项
+        //orderlist的每一项（订单）是否包含 项集的项
         if (item.contains(countItem)) {
           Integer oldValue = itemCountMap.get(countItem);
           itemCountMap.put(countItem, oldValue + 1);
@@ -95,7 +95,7 @@ public class ItemCollection {
     return itemCollectionResult;
   }
 
-  //裁剪：joinedItemCollection是候选集，itemCollection是生成候选集的项集（老项集）
+  //裁剪：joinedItemCollection是候选集，itemCollection是生成候选集的项集（链接前的项集）
   public static ItemCollection trim(ItemCollection joinedItemCollection, ItemCollection itemCollection) {
     ItemCollection itemCollectionResult = new ItemCollection();
 
